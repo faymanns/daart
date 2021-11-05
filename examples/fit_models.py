@@ -52,7 +52,7 @@ def run_main(hparams, *args):
     for expt_id in hparams['expt_ids']:
 
         # DLC markers
-        markers_file = os.path.join(hparams['data_dir'], 'markers', expt_id + '_labeled.h5')
+        markers_file = os.path.join(hparams['data_dir'], 'markers', expt_id + '_labeled.npy')
         if not os.path.exists(markers_file):
             markers_file = os.path.join(hparams['data_dir'], 'markers', expt_id + '_labeled.csv')
 
@@ -104,8 +104,10 @@ def run_main(hparams, *args):
             expt_ids=hparams['expt_ids'], save_file=os.path.join(model_save_path, 'val_curves'),
             format='png')
 
+    torch.save(model.state_dict(), "model_state_dict.pkl")
+
     # get rid of unneeded logging info
-    clean_tt_dir(hparams)
+    #clean_tt_dir(hparams)
 
 
 def get_all_params():
