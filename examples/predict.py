@@ -154,13 +154,15 @@ for trial_dir in utils.load_exp_dirs("../my_data/trials.txt"):
     model = Segmenter(hyperparams)
     model.to(device)
     #model.load_state_dict(torch.load("my_results/multi-2/dtcn/test/version_0/best_val_model.pt"))
-    model.load_state_dict(torch.load("my_results_8classes_5000/multi-0/dtcn/test/version_0/best_val_model.pt"))
+    #model.load_state_dict(torch.load("my_results_8classes_5000/multi-0/dtcn/test/version_0/best_val_model.pt"))
+    model.load_state_dict(torch.load("multi-2/dtcn/test/version_0/best_val_model.pt"))
     #model.load_state_dict(torch.load("my_results_with_heuristic_labels/multi-0/dtcn/test/version_1/best_val_model.pt"))
     
     # get model predictions for each time point
     predictions = np.vstack(model.predict_labels(data_gen)["labels"][0])
     
-    class_names = np.array(['background', 'resting', 'walking', 'eye_grooming', 'antennal_grooming', 'foreleg_grooming', 'abdominal_grooming', 'hindleg_grooming'])#, 'backward_walking'])
+    class_names = np.array(['background', 'resting', 'walking', 'eye_grooming', 'foreleg_grooming', 'abdominal_grooming', 'hindleg_grooming'])#, 'backward_walking'])
+    #class_names = np.array(['background', 'resting', 'walking', 'eye_grooming', 'antennal_grooming', 'foreleg_grooming', 'abdominal_grooming', 'hindleg_grooming'])#, 'backward_walking'])
     #class_names = np.array(['background', 'resting', 'walking', 'grooming', 'hindgrooming'])
     
     n_frames = predictions.shape[0]

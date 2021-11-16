@@ -27,7 +27,8 @@ for trial_dir in trial_dirs:
         print(beh)
 
         #output_file = f"/mnt/internal_hdd/aymanns/daart_behaviour_videos_8classes_5000/{beh}_{descriptor}.mp4"
-        output_file = f"/mnt/internal_hdd/aymanns/daart_behaviour_videos_with_heuristic_labels/{beh}_{descriptor}.mp4"
+        #output_file = f"/mnt/internal_hdd/aymanns/daart_behaviour_videos_with_heuristic_labels/{beh}_{descriptor}.mp4"
+        output_file = f"/mnt/internal_hdd/aymanns/daart_behaviour_videos_full_videos/{beh}_{descriptor}.mp4"
         generators = []
         max_length = 0
 
@@ -39,6 +40,7 @@ for trial_dir in trial_dirs:
         binary_seq = predictions["Prediction"].values == beh
         if sum(binary_seq) == 0:
             continue
+        probabilities = list(map(str, predictions[f"Probability {beh}"].values))
 
         event_based_indices, event_numbers = utils2p.synchronization.event_based_frame_indices(binary_seq) 
 
@@ -54,6 +56,7 @@ for trial_dir in trial_dirs:
             dot_mask = event_mask[start:]
             dot_mask[:200] = 0
             generator = utils_video.generators.add_stimulus_dot(generator, dot_mask)
+            generator = utils_video.generators.add_text_PIL(generator, probabilities[start:])
             generators.append(generator)
 
         print("Number of generators:", len(generators))

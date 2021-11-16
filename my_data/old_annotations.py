@@ -47,14 +47,17 @@ for index, row in annotated_trials.iterrows():
     descriptors.append(descriptor)
 
     input_file = os.path.join(trial_dir, "behData/images/df3d/post_processed.pkl")
-    pose_df = pd.read_pickle(input_file).filter(like="Pose")
-    pose_df = pose_df.filter(regex="^((?!Coxa).)*$")
-    
-    x_coords = pose_df.filter(like="_x").values
-    y_coords = pose_df.filter(like="_y").values
-    z_coords = pose_df.filter(like="_z").values
-    
-    data = np.hstack([x_coords, y_coords, z_coords]).astype("float32")
+    pose_df = pd.read_pickle(input_file)
+    #pose_df = pose_df.filter(like="Pose")
+    #pose_df = pose_df.filter(regex="^((?!Coxa).)*$")
+    #
+    #x_coords = pose_df.filter(like="_x").values
+    #y_coords = pose_df.filter(like="_y").values
+    #z_coords = pose_df.filter(like="_z").values
+    #
+    #data = np.hstack([x_coords, y_coords, z_coords]).astype("float32")
+    angle_df = pose_df.filter(like="Angle")
+    data = angle_df.values.astype("float32")
 
     np.save(f"markers/{descriptor}_labeled.npy", data)
 
@@ -62,53 +65,43 @@ for index, row in annotated_trials.iterrows():
 
     hand_labels_df = pd.DataFrame()
     #for beh in ["background", "resting", "walking", "grooming", "hindgrooming"]:
-    for beh in ["background", "resting", "walking", "eye_grooming", "antennal_grooming", "foreleg_grooming", "abdominal_grooming", "hindleg_grooming", "backward_walking"]:
+    #for beh in ["background", "resting", "walking", "eye_grooming", "antennal_grooming", "foreleg_grooming", "abdominal_grooming", "hindleg_grooming", "backward_walking"]:
+    for beh in ["background", "resting", "walking", "eye_grooming", "foreleg_grooming", "abdominal_grooming", "hindleg_grooming",]:
         hand_labels_df[beh] = np.zeros(pose_df.shape[0], dtype=int)
 
-    states = np.zeros(pose_df.shape[0], int)
-    print(trial_annotations["Behaviour"].unique())
+    #print(trial_annotations["Behaviour"].unique())
 
     frames = trial_annotations.index.to_frame(name=["Date", "Genotype", "Fly", "Trial", "Frame"])["Frame"]
 
     bool_index = trial_annotations["Behaviour"] == "resting"
     hand_labels_df.loc[frames[bool_index], "resting"] = 1
-    states[frames[bool_index]] = 1
 
     bool_index = trial_annotations["Behaviour"] == "walking"
     hand_labels_df.loc[frames[bool_index], "walking"] = 1
-    states[frames[bool_index]] = 2
 
-    #bool_index = trial_annotations["Behaviour"].isin(("eye_grooming", "antennal_grooming", "foreleg_grooming"))
-    #hand_labels_df.loc[frames[bool_index], "grooming"] = 1
-    #states[frames[bool_index]] = 3
+    bool_index = trial_annotations["Behaviour"].isin(("eye_grooming", "antennal_grooming"))#, "foreleg_grooming"))
+    hand_labels_df.loc[frames[bool_index], "eye_grooming"] = 1
     
-    bool_index = trial_annotations["Behaviour"] == "eye_grooming"
-    hand_labels_df.loc[frames[bool_index], "grooming"] = 1
-    states[frames[bool_index]] = 3
+    #bool_index = trial_annotations["Behaviour"] == "eye_grooming"
+    #hand_labels_df.loc[frames[bool_index], "grooming"] = 1
 
-    bool_index = trial_annotations["Behaviour"] == "antennal_grooming"
-    hand_labels_df.loc[frames[bool_index], "grooming"] = 1
-    states[frames[bool_index]] = 4
+    #bool_index = trial_annotations["Behaviour"] == "antennal_grooming"
+    #hand_labels_df.loc[frames[bool_index], "grooming"] = 1
 
     bool_index = trial_annotations["Behaviour"] == "foreleg_grooming"
-    hand_labels_df.loc[frames[bool_index], "grooming"] = 1
-    states[frames[bool_index]] = 5
+    hand_labels_df.loc[frames[bool_index], "foreleg_grooming"] = 1
 
     #bool_index = trial_annotations["Behaviour"].isin(("abdominal_grooming", "hindleg_grooming"))
     #hand_labels_df.loc[frames[bool_index], "hindgrooming"] = 1
-    #states[frames[bool_index]] = 4
 
     bool_index = trial_annotations["Behaviour"] == "abdominal_grooming"
     hand_labels_df.loc[frames[bool_index], "abdominal_grooming"] = 1
-    states[frames[bool_index]] = 6
 
     bool_index = trial_annotations["Behaviour"] == "hindleg_grooming"
     hand_labels_df.loc[frames[bool_index], "hindleg_grooming"] = 1
-    states[frames[bool_index]] = 7
-    
-    bool_index = trial_annotations["Behaviour"] == "backward_walking"
-    hand_labels_df.loc[frames[bool_index], "backward_walking"] = 1
-    states[frames[bool_index]] = 8
+    #
+    #bool_index = trial_annotations["Behaviour"] == "backward_walking"
+    #hand_labels_df.loc[frames[bool_index], "backward_walking"] = 1
     
     # the state ordering should be the same between the hand and heuristic labels
     #state_mapping = {
@@ -119,34 +112,49 @@ for index, row in annotated_trials.iterrows():
     #    4: 'hindgrooming',
     #    }
     state_mapping = {
-        0: 'background',
-        1: 'resting',
-        2: 'walking',
-        3: 'eye_grooming',
-        4: 'antennal_grooming',
-        5: 'foreleg_grooming',
-        6: 'abdominal_grooming',
-        7: 'hindleg_grooming',
-        8: 'backward_walking',
+            0: 'background',
+            1: 'resting',
+            2: 'walking',
+            3: 'eye_grooming',
+            4: 'foreleg_grooming',
+            5: 'abdominal_grooming',
+            6: 'hindleg_grooming',
         }
+    #state_mapping = {
+    #    0: 'background',
+    #    1: 'resting',
+    #    2: 'walking',
+    #    3: 'eye_grooming',
+    #    4: 'antennal_grooming',
+    #    5: 'foreleg_grooming',
+    #    6: 'abdominal_grooming',
+    #    7: 'hindleg_grooming',
+    #    8: 'backward_walking',
+    #    }
 
-    wavelet_df = pd.read_pickle(os.path.join(trial_dir, "behData/images/df3d/angle_wavelets.pkl"))
-    feature_columns = [col for col in wavelet_df.columns if "Coeff" in col]
-    X = wavelet_df[feature_columns].values
-    y_pred = clf.predict(X)
-    prediction = le.inverse_transform(y_pred)
-    mask = states == 0
-    for num, beh in state_mapping.items():
-        bool_index = np.logical_and(mask, prediction == beh)
-        states[bool_index] = num
+    #wavelet_df = pd.read_pickle(os.path.join(trial_dir, "behData/images/df3d/angle_wavelets.pkl"))
+    #feature_columns = [col for col in wavelet_df.columns if "Coeff" in col]
+    #X = wavelet_df[feature_columns].values
+    #y_pred = clf.predict(X)
+    #prediction = le.inverse_transform(y_pred)
+    #mask = states == 0
+    #for num, beh in state_mapping.items():
+    #    bool_index = np.logical_and(mask, prediction == beh)
+    #    states[bool_index] = num
 
     background = hand_labels_df.sum(axis=1) == 0
     hand_labels_df.loc[background, "background"] = 1
+    #hand_labels_df.loc[background, :] = -1
     hand_labels_df.to_csv(f"labels-hand/{descriptor}_labels.csv")
     
+    print(hand_labels_df.values.shape)
+    print(hand_labels_df.columns)
+    states = np.argmax(hand_labels_df.values, axis=1)
     data = {'states': states, 'state_labels': state_mapping}
     with open(f"labels-heuristic/{descriptor}_labels.pkl", 'wb') as f:
         pickle.dump(data, f)
+
+    #print(sum(np.logical_xor(states == 0, hand_labels_df["background"])))
 
 #with open("descriptors.txt", "w") as f:
 #    for d in descriptors:

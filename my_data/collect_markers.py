@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-skip_existing = True
+skip_existing = False
 
 trial_dirs = []
 with open("trials.txt", "r") as f:
@@ -23,13 +23,16 @@ for trial_dir in trial_dirs:
         continue
 
     input_file = os.path.join(trial_dir, "behData/images/df3d/post_processed.pkl")
-    df = pd.read_pickle(input_file).filter(like="Pose")
-    df = df.filter(regex="^((?!Coxa).)*$")
-    
-    x_coords = df.filter(like="_x").values
-    y_coords = df.filter(like="_y").values
-    z_coords = df.filter(like="_z").values
-    
-    data = np.hstack([x_coords, y_coords, z_coords]).astype("float32")
+    df = pd.read_pickle(input_file)
+    #df = df.filter(like="Pose")
+    #df = df.filter(regex="^((?!Coxa).)*$")
+    # 
+    #x_coords = df.filter(like="_x").values
+    #y_coords = df.filter(like="_y").values
+    #z_coords = df.filter(like="_z").values
+    #
+    #data = np.hstack([x_coords, y_coords, z_coords]).astype("float32")
+
+    data = df.filter(like="Angle").values.astype("float32")
 
     np.save(output_file, data)

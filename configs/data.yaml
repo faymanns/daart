@@ -1,67 +1,32 @@
 # number of labels
-input_size: 72
+input_size: 42
 
 # number of classes (including background)
-output_size: 8
+output_size: 6
 
 # experiment ids
 expt_ids:
-    - 200901_G23xU1_Fly1_001_coronal
-    - 200909_G23xU1_Fly1_009_coronal
-    - 200909_G23xU1_Fly1_011_coronal
-    - 201002_G23xU1_Fly1_013_coronal
-    - 201002_G23xU1_Fly1_015_coronal
-    - 201008_G23xU1_Fly1_004_coronal
-    - 201008_G23xU1_Fly1_014_coronal
-    - 201013_G23xU1_Fly2_004_coronal
-    - 201013_G23xU1_Fly2_008_coronal
-    - 201014_G23xU1_Fly1_006_coronal
-    - 201014_G23xU1_Fly1_011_coronal
-    - 201016_G23xU1_Fly1_004_coronal
-    - 201016_G23xU1_Fly1_020_coronal
-    - 210830_Ci1xG23_Fly1_001_coronal
-    - 210830_Ci1xG23_Fly1_002_coronal
-    - 210830_Ci1xG23_Fly1_003_coronal
-    - 210830_Ci1xG23_Fly1_004_coronal
-    - 210830_Ci1xG23_Fly1_005_coronal
-    - 210910_Ci1xG23_Fly2_001_coronal
-    - 210910_Ci1xG23_Fly2_002_coronal
-    - 210910_Ci1xG23_Fly2_003_coronal
-    - 210910_Ci1xG23_Fly2_004_coronal
-    - 210910_Ci1xG23_Fly2_005_coronal
-    - 210929_Ci1xG23_Fly1_001_coronal
-    - 210929_Ci1xG23_Fly1_002_coronal
-    - 210929_Ci1xG23_Fly1_003_coronal
-    - 210929_Ci1xG23_Fly1_004_coronal
-    - 210929_Ci1xG23_Fly1_005_coronal
-    - 211004_Ci1xG23_Fly2_001_coronal
-    - 211004_Ci1xG23_Fly2_002_coronal
-    - 211004_Ci1xG23_Fly2_003_coronal
-    - 211004_Ci1xG23_Fly2_004_coronal
-    - 211004_Ci1xG23_Fly2_005_coronal
-    - 211011_Ci1xG23_Fly1_001_coronal
-    - 211011_Ci1xG23_Fly1_002_coronal
-    - 211011_Ci1xG23_Fly1_003_coronal
-    - 211011_Ci1xG23_Fly1_004_coronal
-    - 211011_Ci1xG23_Fly1_005_coronal
-    - 211026_Ci1xG23_Fly3_001_coronal
-    - 211026_Ci1xG23_Fly3_002_coronal
-    - 211026_Ci1xG23_Fly3_003_coronal
-    - 211026_Ci1xG23_Fly3_004_coronal
-    - 211026_Ci1xG23_Fly3_005_coronal
-    - 211027_Ci1xG23_Fly2_001_coronal
-    - 211027_Ci1xG23_Fly2_002_coronal
-    - 211027_Ci1xG23_Fly2_003_coronal
-    - 211027_Ci1xG23_Fly2_004_coronal
-    - 211027_Ci1xG23_Fly2_005_coronal
-    - 211029_Ci1xG23_Fly1_001_coronal
-    - 211029_Ci1xG23_Fly1_002_coronal
-    - 211029_Ci1xG23_Fly1_003_coronal
-    - 211029_Ci1xG23_Fly1_004_coronal
-    - 211029_Ci1xG23_Fly1_005_coronal
+          - 200901_G23xU1_Fly1_001_coronal
+          - 200909_G23xU1_Fly1_009_coronal
+          - 200909_G23xU1_Fly1_011_coronal
+          - 201002_G23xU1_Fly1_013_coronal
+          - 201002_G23xU1_Fly1_015_coronal
+          - 201008_G23xU1_Fly1_004_coronal
+          - 201008_G23xU1_Fly1_014_coronal
+          - 201013_G23xU1_Fly2_004_coronal
+          - 201013_G23xU1_Fly2_008_coronal
+          - 201014_G23xU1_Fly1_006_coronal
+          - 201014_G23xU1_Fly1_011_coronal
+          - 201016_G23xU1_Fly1_004_coronal
+          - 201016_G23xU1_Fly1_020_coronal
+          - 211029_Ci1xG23_Fly1_003_coronal
+          - 211027_Ci1xG23_Fly2_003_coronal
+          - 211026_Ci1xG23_Fly3_003_coronal
+          - 210910_Ci1xG23_Fly2_003_coronal
+            #- 210830_Ci1xG23_Fly1_003_coronal
 
 # base data directory
-data_dir: /home/aymanns/daart/my_data
+data_dir: /home/aymanns/daart/my_data_full_videos
 
 # base results directory
-results_dir: /home/aymanns/daart/examples/my_results_with_heuristic_labels_batch_2000_epochs_1000
+results_dir: /home/aymanns/daart/examples/my_results_angles_heur_new_and_old_data_full_videos_hyper_search_wo_210830

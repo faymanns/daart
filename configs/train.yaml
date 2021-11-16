@@ -5,7 +5,7 @@
 learning_rate: 0.0001
 
 # batch size
-batch_size: 2000
+batch_size: 1000
 
 # general l2 reg on parameters
 l2_reg: 0
@@ -14,13 +14,13 @@ l2_reg: 0
 min_epochs: 10
 
 # maximum number of training epochs
-max_epochs: 5000
+max_epochs: 500
 
 # frequency with which to log model performance on validation data
 val_check_interval: 1
 
 # True to use early stopping; False will train until max_epochs are reached
-enable_early_stop: True
+enable_early_stop: False
 
 # number of epochs over which to average early stopping metric (total loss)
 early_stop_history: 20
